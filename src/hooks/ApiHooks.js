@@ -1,3 +1,4 @@
+// TODO: add necessary imports
 import {useEffect, useState} from 'react';
 import {baseUrl} from '../utils/variables';
 
@@ -8,7 +9,8 @@ const fetchJson = async (url, options = {}) => {
     if (response.ok) {
       return json;
     } else {
-      throw new Error('response error');
+      const message = json.message;
+      throw new Error(message);
     }
   } catch (err) {
     throw new Error(err.message);
@@ -22,19 +24,58 @@ const useMedia = () => {
       const media = await fetchJson(baseUrl + 'media');
       const allFiles = await Promise.all(
         media.map(async (file) => {
-          const fileResponse = await fetch(`${baseUrl}media/${file.file_id}`);
-          return await fileResponse.json();
+          return await fetchJson(`${baseUrl}media/${file.file_id}`);
         })
       );
       setMediaArray(allFiles);
     } catch (err) {
-      console.log(err.message);
+      alert(err.message);
     }
   };
+
   useEffect(() => {
     getMedia();
   }, []);
+
   return {mediaArray};
 };
 
-export {useMedia};
+const useUser = () => {
+  const getUser = async (token) => {
+    const fetchOptions = {
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    return await fetchJson(baseUrl + 'users/user', fetchOptions);
+  };
+
+  const postUser = async (inputs) => {
+    const fetchOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(inputs),
+    };
+    return await fetchJson(baseUrl + 'users', fetchOptions);
+  };
+
+  return {getUser, postUser};
+};
+
+const useLogin = () => {
+  const postLogin = async (inputs) => {
+    const fetchOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(inputs),
+    };
+    return await fetchJson(baseUrl + 'login', fetchOptions);
+  };
+  return {postLogin};
+};
+
+export {useMedia, useLogin, useUser};
