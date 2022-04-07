@@ -9,7 +9,7 @@ In the project directory, you can run:
 ### `npm start`
 
 Runs the app in the development mode.\
-Open [week3](https://users.metropolia.fi/~kasperih/react/week3/) to view it in your browser.
+Open [week4](https://users.metropolia.fi/~kasperih/react/week4/) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
