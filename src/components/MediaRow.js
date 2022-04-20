@@ -9,7 +9,7 @@ import {safeParseJson} from '../utils/functions';
 const MediaRow = ({file, userId, deleteMedia}) => {
   const {update, setUpdate} = useContext(MediaContext);
   const doDelete = () => {
-    const ok = confirm('Do juu delte?');
+    const ok = confirm('Delete?');
     if (ok) {
       try {
         const deleteInfo = deleteMedia(
